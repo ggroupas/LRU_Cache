@@ -2,7 +2,7 @@
 
 public class App {
     public static void main(String[] args) {
-        LruCache<String, String> cache = new LruCache<>(2);
+        var cache = CacheFactory.<String, String>create(CacheReplacementPolicy.LRU, 50);
         cache.put("1", "1");
         cache.put("2", "2");
         cache.put("3", "3");
