@@ -38,6 +38,18 @@ public abstract class Cache<K, V>{
      */
     abstract void put(K key, V value);
 
+    protected abstract void adjustCapacity();
+
+    protected boolean isMaxCapacityReached() {
+        return _map.size() >= _capacity;
+    }
+
+    protected void adjustCapacityIfNecessary() {
+        if (isMaxCapacityReached()) {
+            adjustCapacity();
+        }
+    }
+
     public DoublyLinkedList.Node<K, V> getHead() {
         return _list.head;
     }

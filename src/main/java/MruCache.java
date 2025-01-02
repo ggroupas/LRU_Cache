@@ -14,4 +14,9 @@ public class MruCache<K, V> extends Cache<K, V> {
     public void put(K key, V value) {
 
     }
+
+    @Override
+    protected void adjustCapacity() {
+
+    }
 }

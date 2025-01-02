@@ -28,13 +28,15 @@ public class LruCache<K, V> extends Cache<K, V> {
             return;
         }
 
+        adjustCapacityIfNecessary();
         var newNode = new DoublyLinkedList.Node<>(key, value);
-        if (_map.size() >= _capacity) {
-            _map.remove(_list.tail.key);
-            _list.removeTail();
-        }
-
         _list.addNode(newNode);
         _map.put(key, newNode);
+    }
+
+    @Override
+    protected void adjustCapacity() {
+        _map.remove(_list.tail.key);
+        _list.removeTail();
     }
 }
