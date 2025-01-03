@@ -3,12 +3,11 @@ package DoublyLinkedList;
 import lombok.Getter;
 import lombok.Setter;
 
-/*
- * previous: closer to tail
- * next: closer to head
+/**
  *
- * head: most recently used
- * tail: least recently used
+ * A collection of double linked Nodes.
+ *
+ * New items are added as the new head
  * */
 public class DoublyLinkedList<K, V> {
 
@@ -17,8 +16,16 @@ public class DoublyLinkedList<K, V> {
         K key;
         @Getter @Setter
         V value;
+
+        /**
+         * Points to next item that is closer to tail
+         * */
         @Getter @Setter
         Node<K, V> previous;
+
+        /**
+         * Points to next item that is closer to head
+         * */
         @Getter @Setter
         Node<K, V> next;
 
@@ -41,8 +48,7 @@ public class DoublyLinkedList<K, V> {
 
     public void addNode(Node<K, V> newNode) {
 
-        if (isEmpty()) {
-            //Both head and tail will point to newNode
+        if (isEmpty()) { //Both head and tail will point to newNode
             head = tail = newNode;
             head.next = null;
             head.previous = null;
@@ -64,12 +70,20 @@ public class DoublyLinkedList<K, V> {
             tail.next.previous = null;
             tail = tail.next;
         } else if (node == head){
-            node.previous.next = null;
-            head = node.previous;
+            head.previous.next = null;
+            head = head.previous;
         } else {
             node.next.previous = node.previous;
             node.previous.next = node.next;
         }
+    }
+
+    public void removeTail() {
+        this.remove(tail);
+    }
+
+    public void removeHead() {
+        this.remove(head);
     }
 
     public boolean isEmpty() {
@@ -85,7 +99,7 @@ public class DoublyLinkedList<K, V> {
             tail = tail.next;
             tail.previous = null;
 
-            if (tail.next == null) {
+            if (tail.next == null) {  // If item assigned as new tail was previously HEAD, we need to assign the next
                 tail.next = head;
             }
         }
@@ -96,9 +110,6 @@ public class DoublyLinkedList<K, V> {
         node.next = null;
     }
 
-    public void removeTail() {
-        this.remove(tail);
-    }
 
     @Override
     public String toString() {

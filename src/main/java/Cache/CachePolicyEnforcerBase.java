@@ -3,6 +3,12 @@ package Cache;
 import DoublyLinkedList.DoublyLinkedList;
 import lombok.Getter;
 
+/**
+ * A policy enforcer is a set of actions that are used by a Cache to ensure a specific replacement/ eviction policy is enforced.
+ *
+ * @see Cache
+ * @see CacheReplacementPolicy
+ * */
 public abstract class CachePolicyEnforcerBase {
     DoublyLinkedList _list = new DoublyLinkedList<>();
 

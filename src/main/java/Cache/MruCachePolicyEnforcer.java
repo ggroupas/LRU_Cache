@@ -3,12 +3,12 @@ package Cache;
 import DoublyLinkedList.DoublyLinkedList;
 
 /**
- * <b> LRU: Least Recently Used </b><br>
+ * <b>MRU: Most Recently Used</b><br>
  *
  * Keeps most recent item to HEAD
- * Removes items from TAIL
+ * Removes items from HEAD
  */
-public class LruCachePolicyEnforcer extends CachePolicyEnforcerBase {
+public class MruCachePolicyEnforcer extends CachePolicyEnforcerBase {
 
     @Override
     public void onItemAccessed(DoublyLinkedList.Node item) {
@@ -17,11 +17,11 @@ public class LruCachePolicyEnforcer extends CachePolicyEnforcerBase {
 
     @Override
     public void onCapacityReached() {
-        _list.removeTail();
+        _list.removeHead();
     }
 
     public DoublyLinkedList.Node getItemToRemove(){
-        return _list.getTail();
+        return _list.getHead();
     }
 
     @Override

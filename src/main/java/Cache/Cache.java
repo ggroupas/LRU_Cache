@@ -1,12 +1,14 @@
 package Cache;
 
 import DoublyLinkedList.DoublyLinkedList;
+import lombok.Getter;
 
 import java.util.HashMap;
 
 public class Cache<K, V>{
 
     protected final int _capacity;
+    @Getter
     protected final CacheReplacementPolicy _policy;
     protected final CachePolicyEnforcerBase _policyEnforcer;
 
@@ -21,10 +23,14 @@ public class Cache<K, V>{
 
         _policyEnforcer = switch (policy) {
             case LRU -> new LruCachePolicyEnforcer();
-//            case MRU -> new MruCache<K,V>(capacity);
+            case MRU -> new MruCachePolicyEnforcer();
             case LFU -> throw new UnsupportedOperationException();
             default -> throw new IllegalArgumentException("Policy not recognized");
         };
+    }
+
+    public boolean isMaxCapacityReached() {
+        return _map.size() >= _capacity;
     }
 
     public int getHitCount() {
@@ -70,10 +76,6 @@ public class Cache<K, V>{
         var newNode = new DoublyLinkedList.Node<>(key, value);
         _policyEnforcer.add(newNode);
         _map.put(key, newNode);
-    }
-
-    public boolean isMaxCapacityReached() {
-        return _map.size() >= _capacity;
     }
 
     protected void adjustCapacityIfNecessary() {
