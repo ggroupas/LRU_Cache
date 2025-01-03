@@ -1,6 +1,10 @@
+import Cache.CacheReplacementPolicy;
+import Cache.Cache;
 import org.junit.jupiter.api.Test;
 
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class LruCacheTests {
 
@@ -9,12 +13,12 @@ public class LruCacheTests {
      * */
     @Test
     void headUpdatesOnGetTest(){
-        LruCache<String, String> cache = new LruCache<>(8);
+        Cache<String, String> cache = new Cache<String, String>(8, CacheReplacementPolicy.LRU);
         cache.put("1", "1");
         cache.put("2", "2");
         cache.put("3", "3");
         cache.get("2");
-        assertEquals("2", cache.getHead().key);
+        assertEquals("2", cache.getHead().getKey());
     }
 
     /**
@@ -22,13 +26,18 @@ public class LruCacheTests {
      * */
     @Test
     void onCapacityReachedRemoveLruTest(){
-        LruCache<String, String> cache = new LruCache<>(2);
+        Cache<String, String> cache = new Cache(2, CacheReplacementPolicy.LRU);
         cache.put("1", "1");
+        System.out.println(cache);
         cache.put("2", "2");
+        System.out.println(cache);
+
         cache.put("3", "3");
+        System.out.println(cache);
+
         cache.get("2");
-        assertEquals("2", cache.getHead().key);
-        assertEquals("3", cache.getTail().key);
-        assertEquals(null, cache.get("1"));
+        assertEquals("3", cache.getTail().getKey());
+        assertEquals("2", cache.getHead().getKey());
+        assertNull(cache.get("1"));
     }
 }

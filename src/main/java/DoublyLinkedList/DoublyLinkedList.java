@@ -1,3 +1,7 @@
+package DoublyLinkedList;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /*
  * previous: closer to tail
@@ -8,11 +12,14 @@
  * */
 public class DoublyLinkedList<K, V> {
 
-
-    static class Node<K, V>{
+    public static class Node<K, V>{
+        @Getter @Setter
         K key;
+        @Getter @Setter
         V value;
+        @Getter @Setter
         Node<K, V> previous;
+        @Getter @Setter
         Node<K, V> next;
 
         public Node(K key, V data) {
@@ -21,7 +28,9 @@ public class DoublyLinkedList<K, V> {
         }
     }
 
+    @Getter
     Node<K, V> head = null;
+    @Getter
     Node<K, V> tail = null;
 
     public void addNode(K key, V value) {
@@ -39,7 +48,6 @@ public class DoublyLinkedList<K, V> {
             head.previous = null;
         }
         else if (head == tail) { //Only one element in the list
-            tail = head;
             tail.next = newNode;
             head = newNode;
             head.previous = tail;
@@ -53,8 +61,8 @@ public class DoublyLinkedList<K, V> {
     public void remove(Node<K, V> node) {
 
         if (node == tail){
-            node.next.previous = null;
-            tail = node.next;
+            tail.next.previous = null;
+            tail = tail.next;
         } else if (node == head){
             node.previous.next = null;
             head = node.previous;
@@ -74,28 +82,31 @@ public class DoublyLinkedList<K, V> {
         }
 
         if (node == tail) {
-            tail = node.next;
+            tail = tail.next;
+            tail.previous = null;
+
+            if (tail.next == null) {
+                tail.next = head;
+            }
         }
 
         head.next = node;
         node.previous = head;
         head = node;
+        node.next = null;
     }
 
     public void removeTail() {
         this.remove(tail);
     }
 
-    public Node<K, V> getHead() {
-        return head;
-    }
-
     @Override
     public String toString() {
-        Node<K, V> current = head;
         StringBuilder returnString = new StringBuilder();
+
+        Node<K, V> current = head;
         while (current != null) {
-            returnString.append("KEY:").append(current.key.toString()).append(" VALUE:").append(current.value.toString()).append("\n");
+            returnString.append("KEY:").append(current.getKey().toString()).append(" VALUE:").append(current.getValue().toString()).append("\n");
             current = current.previous;
         }
 

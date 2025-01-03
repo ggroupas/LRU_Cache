@@ -1,3 +1,5 @@
+package Cache;
+
 /**
 * A cache interface
 *

@@ -1,3 +1,5 @@
+package Cache;
+
 import lombok.Getter;
 
 public enum CacheReplacementPolicy {
