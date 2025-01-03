@@ -35,6 +35,12 @@ public class Cache<K, V>{
         return _misses;
     }
 
+    /**
+     * Get the value for a key. Returns null if the key is not
+     * in the cache.
+     *
+     * @param key the key
+     */
     public V get(K key) {
         if (!_map.containsKey(key)) {
             _misses++;
@@ -48,6 +54,12 @@ public class Cache<K, V>{
         return node.getValue();
     }
 
+    /**
+     * Put a new key value pair in the cache
+     *
+     * @param key   the key
+     * @param value the value
+     */
     public void put(K key, V value) {
         if (_map.containsKey(key)) {
             _policyEnforcer.addExisting(_map.get(key));
